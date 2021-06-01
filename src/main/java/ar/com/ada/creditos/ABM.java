@@ -1,5 +1,6 @@
 package ar.com.ada.creditos;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,12 +16,15 @@ public class ABM {
     public static Scanner Teclado = new Scanner(System.in);
 
     protected ClienteManager ABMCliente = new ClienteManager();
+    protected PrestamoManager ABMPrestamo = new PrestamoManager();
+
 
     public void iniciar() throws Exception {
 
         try {
 
             ABMCliente.setup();
+            ABMPrestamo.setup();
 
             printOpciones();
 
@@ -54,6 +58,10 @@ public class ABM {
                     case 5:
                         listarPorNombre();
                         break;
+
+                    case 6:
+                        otorgarPrestamo();
+                        break;    
 
                     default:
                         System.out.println("La opcion no es correcta.");
@@ -257,6 +265,29 @@ public class ABM {
         System.out.println(" Fecha Nacimiento: " + fechaNacimientoStr);
     }
 
+    public void otorgarPrestamo(){
+        Prestamo prestamo = new Prestamo();
+
+        System.out.println("Ingresá el ID de cliente:");
+
+        Cliente cliente_id = ABMCliente.read(Teclado.nextInt());
+        prestamo.setCliente(cliente_id);
+
+        System.out.println("Ingresá el monto:");
+        prestamo.setImporte(new BigDecimal(Teclado.nextInt()));
+
+        System.out.println("Ingresá la cantidad de cuotas:");
+        prestamo.setCuotas(Teclado.nextInt());
+
+        prestamo.setFecha(new Date());
+
+        prestamo.setFechaAlta(new Date());
+        
+        ABMPrestamo.create(prestamo);
+
+        System.out.println("El préstamo fue generado con éxito "+ prestamo.getPrestamoId());
+    }
+
     public static void printOpciones() {
         System.out.println("=======================================");
         System.out.println("");
@@ -265,6 +296,7 @@ public class ABM {
         System.out.println("3. Para modificar un cliente.");
         System.out.println("4. Para ver el listado.");
         System.out.println("5. Buscar un cliente por nombre especifico(SQL Injection)).");
+        System.out.println("6. Otorgar un nuevo prestamo.");
         System.out.println("0. Para terminar.");
         System.out.println("");
         System.out.println("=======================================");

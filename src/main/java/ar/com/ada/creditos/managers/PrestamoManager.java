@@ -58,26 +58,7 @@ public class PrestamoManager {
         return prestamo;
     }
 
-    public Prestamo readByDNI(int dni) {
-        Session session = sessionFactory.openSession();
-
-        Prestamo prestamo = session.byNaturalId(Prestamo.class).using("dni", dni).load();
-
-        session.close();
-
-        return prestamo;
-    }
-
-    public void update(Prestamo prestamo) {
-
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        session.update(prestamo);
-
-        session.getTransaction().commit();
-        session.close();
-    }
+    
 
     public void delete(Prestamo prestamo) {
 
