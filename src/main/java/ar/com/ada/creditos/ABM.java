@@ -61,7 +61,10 @@ public class ABM {
 
                     case 6:
                         otorgarPrestamo();
-                        break;    
+                        break;   
+                        
+                    case 7:
+                        listarPrestamos();    
 
                     default:
                         System.out.println("La opcion no es correcta.");
@@ -285,7 +288,22 @@ public class ABM {
         
         ABMPrestamo.create(prestamo);
 
-        System.out.println("El préstamo fue generado con éxito "+ prestamo.getPrestamoId());
+        System.out.println("El préstamo fue generado con éxito.");
+        System.out.println("Para cliente: "+ prestamo.getCliente().getNombre());
+    }
+
+    public void listarPrestamos(){
+        List<Prestamo> todos = ABMPrestamo.buscarTodos();
+        for (Prestamo prestamo : todos) {
+            mostrarPrestamo(prestamo);
+        }
+
+    }
+
+    public void mostrarPrestamo (Prestamo prestamo){
+        System.out.print("Id: " + prestamo.getPrestamoId()+ " Cliente: " + prestamo.getCliente().getNombre()  + " Importe: " + prestamo.getImporte() + " Cuotas: "
+                + prestamo.getCuotas() + "Fecha de alta: " + prestamo.getFechaAlta());
+
     }
 
     public static void printOpciones() {
@@ -297,6 +315,7 @@ public class ABM {
         System.out.println("4. Para ver el listado.");
         System.out.println("5. Buscar un cliente por nombre especifico(SQL Injection)).");
         System.out.println("6. Otorgar un nuevo prestamo.");
+        System.out.println("7. Listar Prestamos.");
         System.out.println("0. Para terminar.");
         System.out.println("");
         System.out.println("=======================================");
